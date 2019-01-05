@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>
+Chaos Game Fractal Generator
+</title>
+</head>
+<body>
+<canvas id="canvas" width="600" height="600"></canvas>
+<script type=text/javascript>
+
+
+	//Prepare canvas
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+
+	ctx.canvas.width = window.innerWidth - 50;
+	ctx.canvas.height = window.innerHeight - 50;
+	console.log(canvas.width);
+	console.log(canvas.height);
+
+
+	// Define other variables
+	var x = canvas.width / 2;
+	var y = canvas.height / 2;
+
+	var vertices = [577,33,981,233,195,233,381,620,761,620];
+	vertices = [];
+	console.log(vertices);
+
+	var lastRand = 0;
+	var rand = 0;
+
+
+	//Calculate vertices of polygon
+	do{
+		var vertexNum = prompt("How many vertices?");
+		if(vertexNum < 3 || vertexNum > 100){
+			alert("Number of vertices must be between 3 and 100.");
+		}
+	}
+	while(vertexNum < 3 || vertexNum > 100)
+
+	do{
+		var repeatVertices = prompt("Allow repeated selection of vertex? (y/n)");
+		if(repeatVertices !== "y" && repeatVertices !== "n"){
+			alert("Please enter either 'y' or 'n'.");
+		}
+	}
+	while(repeatVertices !== "y" && repeatVertices !== "n")
+
+
+	var diameter = canvas.height;
+	var degrees = 6.25 / vertexNum;
+
+	var centerX = canvas.width / 2;
+	var centerY = canvas.height / 2;
+
+	var addX = centerX;
+	var addY = 0;
+
+	var newAddX = addX;
+	var newAddY = addY;
+
+	for(i=0;i<vertexNum;i++){
+
+		vertices.push(addX);
+		vertices.push(addY);
+
+		ctx.beginPath();
+		ctx.fillStyle = "rgba(255,255,255,1)";
+
+		ctx.fillRect(addX,addY,10,10);
+		ctx.fill();
+		newAddX = ((addX - centerX) * Math.cos(degrees)) - ((addY - centerY) * Math.sin(degrees)) + centerX;
+		newAddY = ((addX - centerX) * Math.sin(degrees)) + ((addY - centerY) * Math.cos(degrees)) + centerY;
+
+		addX = newAddX;
+		addY = newAddY;
+
+
+	}
+
+
+
+
+	//Draw fractal
+	function drawPoint(){
+		for(i=0;i<500;i++){
+				if(repeatVertices === "n"){
+					do{
+						rand = Math.ceil(Math.random()*vertices.length/2);
+					}while(rand == lastRand)
+					lastRand = rand;
+				}
+				else{
+					rand = Math.ceil(Math.random()*vertices.length/2);
+				}
+
+				for(j=0;j<rand;j++){
+				if(rand==j+1){
+					x=vertices[j*2]-((vertices[j*2]-x)/2);
+					y=vertices[(j*2)+1]-((vertices[(j*2)+1]-y)/2);
+				}
+
+				ctx.beginPath();
+				ctx.fillStyle = "rgba(0,0,255,1)";
+
+				ctx.fillRect(x,y,1,1);
+				ctx.fill();
+			}
+		}
+	}
+
+	var intervalID = window.setInterval(drawPoint,1);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>
+Sierpinski Triangle (Chaos Game)
+</title>
+</head>
+<body>
+<canvas id="canvas" width="600" height="600"></canvas>
+<script type=text/javascript>
+	
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+	
+	ctx.canvas.width = window.innerWidth - 50;
+	ctx.canvas.height = window.innerHeight - 50;
+	
+	var x = 400;
+	var y = 400;
+	
+	var triangle = [500,100,200,550,800,550];
+	
+	var rand = Math.ceil(Math.random()*3);
+
+	function drawPoint(){
+		for(i=0;i<500;i++){
+			ctx.beginPath();
+			ctx.fillStyle = "rgba(255,0,0,1)";
+			
+			ctx.fillRect(x,y,1,1);
+			ctx.fill();
+			
+			rand = Math.ceil(Math.random()*3);
+			if(rand==1){
+				x+=(triangle[0]-x)/2;
+				y+=(triangle[1]-y)/2;
+			}
+			else if(rand==2){
+				x+=(triangle[2]-x)/2;
+				y+=(triangle[3]-y)/2;
+			}
+			else if(rand==3){
+				x+=(triangle[4]-x)/2;
+				y+=(triangle[5]-y)/2;
+			}
+		}
+	}
+		
+	var intervalID = window.setInterval(drawPoint,1);
+
+</script>
+
+</body>
+</html>
